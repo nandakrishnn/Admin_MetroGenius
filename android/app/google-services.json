@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "633061690863",
+    "project_id": "metrogeniusapp",
+    "storage_bucket": "metrogeniusapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633061690863:android:a3e89be668e402bb21fa1a",
+        "android_client_info": {
+          "package_name": "com.example.metrogeniusapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsIebjWxKsswfOyBLFjwLWICqg-IA4ch4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
