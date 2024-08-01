@@ -8,11 +8,11 @@ part 'categories_state.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   CategoriesBloc() : super(CategoriesState()) {
-    on<ImageChanges>(_imageChanegs);
+    on<ImageChangesCategory>(_imageChanegs);
     on<TextChanges>(_textChanges);
     on<FormSubmit>(_formSubmit);
   }
-  void _imageChanegs(ImageChanges event, Emitter<CategoriesState> emit) {
+  void _imageChanegs(ImageChangesCategory event, Emitter<CategoriesState> emit) {
     emit(state.copywith(image: event.image));
   }
 
@@ -28,7 +28,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
           .adminCatgeoryInfo(id: id, img: state.image!, name: state.text!);
       final added =
           await EmployeJobApplication().addCatgeoryAdmin(addedDetails, id);
-          if(added){
+          if(added==true){
             emit(state.copywith(uploadStatus: UploadStatus.sucess));
           }else{
             emit(state.copywith(uploadStatus: UploadStatus.error));

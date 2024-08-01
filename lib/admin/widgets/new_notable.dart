@@ -1,8 +1,9 @@
+import 'package:adminmetrogenius/utils/constants.dart';
 import 'package:flutter/material.dart';
-
 class NewNotable extends StatelessWidget {
-  String imageurl;
-  String text;
+  final String imageurl;
+  final String text;
+
   NewNotable({
     required this.imageurl,
     required this.text,
@@ -22,26 +23,41 @@ class NewNotable extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                boxShadow: [
+                boxShadow: const [
                   BoxShadow(
-                    color: Colors.grey,
-                    spreadRadius: .5,
-                    blurRadius: .5,
-                    offset: Offset(0, 0)
-                  )
-                ]
+                    color: Color.fromARGB(255, 188, 178, 178),
+                    spreadRadius: 1,
+                    blurRadius: 1,
+                    offset: Offset(2, 2),
+                  ),
+                ],
               ),
               height: 130,
               width: 130,
               child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    imageurl,
-                    fit: BoxFit.cover,
-                  )),
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  imageurl,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                            : null,
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) {
+                    return Center(child: Text('Error loading image'));
+                  },
+                ),
+              ),
             ),
-  
+            AppConstants.kheight5,
             Text(
+              overflow: TextOverflow.ellipsis,
               text,
               style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
             ),
@@ -51,7 +67,3 @@ class NewNotable extends StatelessWidget {
     );
   }
 }
-
-
-
-

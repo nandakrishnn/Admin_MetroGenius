@@ -11,12 +11,14 @@ class AdminHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+         final screenWidth = MediaQuery.of(context).size.width;
+    final showAppBar = screenWidth > 600; // Adjust the width as needed
     return Scaffold(
-      appBar: AppBar(
+      appBar:showAppBar? AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text('Admin Home'),
-      ),
+      ):null,
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -37,12 +39,12 @@ class AdminHome extends StatelessWidget {
                       blurRadius: 2
                     )
                   ],
-                  borderRadius: BorderRadius.circular(14),
-                  color: AppColors.adminMaincolor.withOpacity(0.01)
+                  borderRadius: BorderRadius.circular(5),
+                  color: AppColors.mainBlueColor
                   
                 ),
                 height: MediaQuery.of(context).size.height * 0.18,
-                width: MediaQuery.of(context).size.width * 0.5,
+                width: MediaQuery.of(context).size.width * 0.2,
                 child:const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -51,7 +53,7 @@ class AdminHome extends StatelessWidget {
                           AppConstants.kheight10,
                       Text(
                         'Applicants',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Colors.white),
                       ),
                       
                     ],

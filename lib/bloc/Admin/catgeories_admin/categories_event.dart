@@ -2,9 +2,9 @@ part of 'categories_bloc.dart';
 
 @immutable
 sealed class CategoriesEvent {}
-final class ImageChanges extends CategoriesEvent{
+final class ImageChangesCategory extends CategoriesEvent{
 final String image;
-ImageChanges(this.image);
+ImageChangesCategory(this.image);
 }
 final class TextChanges extends CategoriesEvent{
   final String text;

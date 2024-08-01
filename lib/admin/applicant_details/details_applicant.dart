@@ -1,5 +1,6 @@
-import 'dart:io';
 import 'package:adminmetrogenius/admin/applicant_details/applicant_deatils.dart';
+import 'package:adminmetrogenius/admin/bottom_nav_admin/Home/home_admin.dart';
+import 'package:adminmetrogenius/admin/widgets/custom_snackbar.dart';
 import 'package:adminmetrogenius/animations/route_animations.dart';
 import 'package:adminmetrogenius/bloc/Admin/accept_reject/accept_reject_bloc.dart';
 import 'package:adminmetrogenius/utils/colors.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../utils/constants.dart';
-
 
 // ignore: must_be_immutable
 class ApplicantDetails extends StatelessWidget {
@@ -100,9 +100,9 @@ class ApplicantDetails extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 7, top: 20),
+                    padding: const EdgeInsets.only(left: 7, top: 0),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.42,
+                      height: MediaQuery.of(context).size.height * 0.48,
                       width: MediaQuery.of(context).size.width * 0.38,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -179,27 +179,43 @@ class ApplicantDetails extends StatelessWidget {
                   child: Row(
                     children: [
                       ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             AlertBoxCustom(context,
                                 'Are you sure you want to delete this employee request',
                                 () {
                               Navigator.of(context).pop();
-                            }, () {
+                            }, () async {
                               context
                                   .read<AcceptRejectBloc>()
                                   .add(Rejected(data['Id']));
-                              Navigator.of(context).pushReplacement(
-                                  createRoute(ApplicantDeatils()));
+                              await Future.delayed(Duration(milliseconds: 700));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  customSnack(
+                                      'Employee Rejected',
+                                      'Details not added to Database',
+                                      Icon(Icons.delete_forever),
+                                      Colors.red));
+                              Navigator.of(context)
+                                  .pushReplacement(createRoute(AdminHome()));
                             });
                           },
                           child: const Text('Reject')),
                       AppConstants.kwidth20,
                       ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             AlertBoxCustom(context,
-                                'Are you sure to appoint this employee', () {
+                                'Are you sure to appoint this employee',
+                                () async {
                               Navigator.of(context).pop();
-                            }, () {
+                            }, () async {
+                              await Future.delayed(
+                                  const Duration(milliseconds: 700));
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  customSnack(
+                                      'Employee Added',
+                                      'Details added to Database',
+                                      Icon(Icons.done),
+                                      Colors.green));
                               context
                                   .read<AcceptRejectBloc>()
                                   .add(Accepted(data));
@@ -207,7 +223,34 @@ class ApplicantDetails extends StatelessWidget {
                                   createRoute(ApplicantDeatils()));
                             });
                           },
-                          child: const Text('Accept'))
+                          child: const Text('Accept')),
+                      AppConstants.kwidth20,
+                      ElevatedButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Dialog(
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          .6,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .7,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(16),
+                                        child: DecoratedBox(
+                                            decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: NetworkImage(
+                                                        data['ApplicantProof']),
+                                                    fit: BoxFit.cover))),
+                                      ),
+                                    ),
+                                  );
+                                });
+                          },
+                          child: Text('Id-Proof'))
                     ],
                   ),
                 ),
@@ -219,6 +262,7 @@ class ApplicantDetails extends StatelessWidget {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Future<dynamic> AlertBoxCustom(BuildContext context, String mainText,
       void Function()? onPressNo, void Function()? onPressYes) {
     return showDialog(
